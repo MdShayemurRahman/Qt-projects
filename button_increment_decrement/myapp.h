@@ -11,6 +11,7 @@ signals:
     void sendMess2(const QString &txt_box_str2);
 
 public slots:
+    void mySlot();
     void func_btn_clk();
     void func_btn_pls();
     void func_btn_mns();

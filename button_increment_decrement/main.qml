@@ -7,7 +7,7 @@ Window {
     width: 450
     height: 450
     visible: true
-    title: qsTr("Hello World")
+    title: qsTr("Counter")
 
     Text {
         id: txt_box

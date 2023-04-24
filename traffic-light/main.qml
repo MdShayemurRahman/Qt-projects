@@ -13,7 +13,7 @@ Window {
 
         // Traffic Light 1
         Rectangle {
-            x: 425
+            x: 305
             y: 320
             width: 30
             height: 90
@@ -52,13 +52,15 @@ Window {
 
         // Traffic Light 2
         Rectangle {
-            x: 425
+            id: rectangle2
+            x: 305
             y: 240
             width: 90
             height: 30
             color: "black"
 
             Rectangle {
+                id: green
                 x: 5
                 y: 5
                 width: 20
@@ -69,6 +71,7 @@ Window {
             }
 
             Rectangle {
+                id: yellow
                 x: 35
                 y: 5
                 width: 20
@@ -79,6 +82,7 @@ Window {
             }
 
             Rectangle {
+                id: red
                 x: 65
                 y: 5
                 width: 20
@@ -91,14 +95,14 @@ Window {
 
         // Road
         Rectangle {
-            x: 100
+            x: 75
             y: 275
-            width: 600
+            width: 400
             height: 35
             color: "grey"
         }
         Rectangle {
-            x: 385
+            x: 260
             y: 100
             width: 35
             height: 400
@@ -109,7 +113,7 @@ Window {
     }
 
     Timer {
-        interval: 1000
+        interval: 3000
         running: true
         repeat: true
         onTriggered: {
@@ -118,12 +122,20 @@ Window {
                     trafficLightMode = 0;
 
             } else { // normal operation
-                if (trafficLightMode === 1)
+                if (trafficLightMode === 1) {
                     trafficLightMode = 2;
-                else if (trafficLightMode === 2)
+
+                }
+
+                else if (trafficLightMode === 2) {
                     trafficLightMode = 3;
-                else
+
+                }
+
+                else {
                     trafficLightMode = 1;
+
+                }
             }
         }
     }
