@@ -1,144 +1,166 @@
 import QtQuick 2.15
 import QtQuick.Window 2.15
+import QtQuick.Controls 2.15
 
 Window {
-    width: 200
-    height: 400
     visible: true
-    title: "Traffic Light"
+    width: 800
+    height: 600
 
     Rectangle {
-        id: mainRectangle
-        width: 400
-        height: 400
-        color: "lightgray"
+        anchors.fill: parent
 
-        Rectangle {
-            id: horizontalRoad
-            width: 300
-            height: 80
-            x: 50
-            y: 160
-            color: "gray"
-        }
 
+        // Traffic Light 1
         Rectangle {
-            id: verticalRoad
-            width: 80
-            height: 300
-            x: 160
-            y: 50
-            color: "gray"
-        }
-
-        Rectangle {
-            id: horizontalTrafficLight
-            width: 40
-            height: 120
-            x: 130
-            y: 140
+            x: 425
+            y: 320
+            width: 30
+            height: 90
             color: "black"
-            border.color: "yellow"
-            border.width: 3
 
             Rectangle {
-                id: horizontalGreenLight
-                width: 30
-                height: 30
-                x: 5
-                y: 85
-                radius: 15
-                color: "green"
-                visible: trafficLightModel.horizontalLight === "green"
-            }
-
-            Rectangle {
-                id: horizontalYellowLight
-                width: 30
-                height: 30
-                x: 5
-                y: 45
-                radius: 15
-                color: "yellow"
-                visible: trafficLightModel.horizontalLight === "yellow"
-            }
-
-            Rectangle {
-                id: horizontalRedLight
-                width: 30
-                height: 30
                 x: 5
                 y: 5
-                radius: 15
+                width: 20
+                height: 20
+                radius: 20
+                color: "green"
+                visible: trafficLightMode === 1
+            }
+
+            Rectangle {
+                x: 5
+                y: 35
+                width: 20
+                height: 20
+                radius: 20
+                color: "yellow"
+                visible: trafficLightMode === 2
+            }
+
+            Rectangle {
+                x: 5
+                y: 65
+                width: 20
+                height: 20
+                radius: 20
                 color: "red"
-                visible: trafficLightModel.horizontalLight === "red"
+                visible: trafficLightMode === 3
             }
         }
 
+        // Traffic Light 2
         Rectangle {
-            id: verticalTrafficLight
-            width: 120
-            height: 40
-            x: 140
-            y: 130
+            x: 425
+            y: 240
+            width: 90
+            height: 30
             color: "black"
-            border.color: "yellow"
-            border.width: 3
 
             Rectangle {
-                id: verticalGreenLight
-                width: 30
-                height: 30
-                x: 85
-                y: 5
-                radius: 15
-                color: "green"
-                visible: trafficLightModel.verticalLight === "green"
-            }
-
-            Rectangle {
-                id: verticalYellowLight
-                width: 30
-                height: 30
-                x: 45
-                y: 5
-                radius: 15
-                color: "yellow"
-                visible: trafficLightModel.verticalLight === "yellow"
-            }
-
-            Rectangle {
-                id: verticalRedLight
-                width: 30
-                height: 30
                 x: 5
                 y: 5
-                radius: 15
+                width: 20
+                height: 20
+                radius: 20
+                color: "green"
+                visible: trafficLightMode === 3
+            }
+
+            Rectangle {
+                x: 35
+                y: 5
+                width: 20
+                height: 20
+                radius: 20
+                color: "yellow"
+                visible: trafficLightMode === 2
+            }
+
+            Rectangle {
+                x: 65
+                y: 5
+                width: 20
+                height: 20
+                radius: 20
                 color: "red"
-                visible: trafficLightModel.verticalLight === "red"
+                visible: trafficLightMode === 1
             }
         }
 
-        ListModel {
-            id: trafficLightModel
-            ListElement { horizontalLight: "green"; verticalLight: "red" }
+        // Road
+        Rectangle {
+            x: 100
+            y: 275
+            width: 600
+            height: 35
+            color: "grey"
+        }
+        Rectangle {
+            x: 385
+            y: 100
+            width: 35
+            height: 400
+            color: "grey"
         }
 
-        Timer {
-               id: timer
-               interval: 3000
-               running: true
-               repeat: true
-//               onTriggered: {
-//                   if (trafficLightModel.horizontalLight === "green") {
-//                       trafficLightModel.set(0, { horizontalLight: "yellow", verticalLight: "red" })
-//                   } else if (trafficLightModel.horizontalLight === "yellow") {
-//                       trafficLightModel.set(0, { horizontalLight: "red", verticalLight: "green" })
-//                   } else if () {
 
-//                   }
-//               }
+    }
+
+    Timer {
+        interval: 1000
+        running: true
+        repeat: true
+        onTriggered: {
+            if (isDarkMode) { // check if dark mode is enabled
+                if (trafficLightMode === 2)
+                    trafficLightMode = 0;
+
+            } else { // normal operation
+                if (trafficLightMode === 1)
+                    trafficLightMode = 2;
+                else if (trafficLightMode === 2)
+                    trafficLightMode = 3;
+                else
+                    trafficLightMode = 1;
+            }
         }
     }
 
+    property int trafficLightMode: 1
+    property bool isDarkMode: false
+
+    Button {
+        id: on;
+        text: "Turn Light"
+        x: 0
+        y: 0;
+        onClicked: {
+            trafficLightMode = 1
+            state.text = "Traffic System Running"
+            isDarkMode = false
+        }
+    }
+
+    Button {
+        id: off;
+        text: "OFF"
+        x: 120
+        y: 0
+
+        onClicked: {
+            trafficLightMode = 0
+            state.text = "Off"
+            isDarkMode = true
+        }
+    }
+
+    Text {
+        id: state
+        text: "Traffic System Running"
+        x: 5
+        y: 50
+        font.pixelSize: 18
+    }
 }
