@@ -33,7 +33,7 @@ myapp::myapp()
 
     timer = new QTimer(this);
     connect(timer, SIGNAL(timeout()), this, SLOT(mySlot()));
-    timer->start(900);
+    timer->start(1000);
 }
 
 void myapp::mySlot()
@@ -86,6 +86,9 @@ void myapp::mySlot()
 
     if(minute < 0) {
         minute = 59;
+        if(hour > 0) {
+            hour -= 1;
+        }
     }
 
     if(second == 60){
